@@ -11,6 +11,9 @@ import miu.waa.lab.entity.User;
 
 public interface UserRepo extends JpaRepository<User, Integer> {
 
+	@Query("select u from User u where u.email = :email ")
+	public User getUserByEmail(String email);
+
 	@Query("select u from User u where size(u.posts) > 1")
 	public List<UserDto> getAllUsersHavingMoreThanOnePost();
 	
