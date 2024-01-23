@@ -1,19 +1,11 @@
 package miu.waa.lab.repo;
 
-import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import miu.waa.lab.entity.Post;
 
 
-public interface PostRepo {
+public interface PostRepo extends JpaRepository<Post,Integer> {
 
-    public List<Post> findAll();
-
-    public Post getById(int id);
-
-    public void save(Post p);
-
-    public void delete(int id);
-
-    public void update(int id, Post p);
 }

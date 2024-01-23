@@ -31,7 +31,7 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public PostDto getById(int id) {
-		return modelMapper.map(postRepo.getById(id), PostDto.class);
+		return modelMapper.map(postRepo.findById(id), PostDto.class);
 	}
 
 	@Override
@@ -41,12 +41,8 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public void delete(int id) {
-		postRepo.delete(id);
-	}
-
-	@Override
-	public void update(int id, PostDto p) {
-		postRepo.update(id, modelMapper.map(p, Post.class));
+		var post = postRepo.findById(id);
+		postRepo.delete(post.get());
 	}
 
 }
