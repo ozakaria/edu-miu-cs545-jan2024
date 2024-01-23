@@ -40,7 +40,7 @@ public class PostController {
 	}
 
 	@ResponseStatus(HttpStatus.OK)
-	@GetMapping()
+	@GetMapping("/filter")
 	public List<PostDto> getByTitle(@RequestParam("title") String title) {
 		return postService.getPostsByTitle(title);
 	}

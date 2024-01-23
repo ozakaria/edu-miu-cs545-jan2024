@@ -14,10 +14,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import miu.waa.lab.aspect.annotation.ExecutionTime;
 import miu.waa.lab.dto.AddCommentDto;
 import miu.waa.lab.dto.AddPostDto;
 import miu.waa.lab.dto.UserDto;
 import miu.waa.lab.dto.UserPostsDto;
+import miu.waa.lab.entity.Log;
+import miu.waa.lab.service.LogService;
 import miu.waa.lab.service.UserService;
 
 @RestController
@@ -27,12 +30,22 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+//	@Autowired
+//	private LogService logService;
+//
+//	@ResponseStatus(HttpStatus.OK)
+//	@GetMapping("/logs")
+//	public List<Log> getlogs() {
+//		return logService.findAll();
+//	}
+
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping
 	public List<UserDto> getAll() {
 		return userService.getAll();
 	}
 
+	@ExecutionTime
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping("/{id}")
 	public UserDto getOne(@PathVariable int id) {
