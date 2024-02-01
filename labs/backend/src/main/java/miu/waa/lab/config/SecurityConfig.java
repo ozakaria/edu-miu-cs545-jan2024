@@ -48,17 +48,23 @@ public class SecurityConfig {
 //                        .anyRequest().hasAnyRole(roles)
 //        )
 //                .httpBasic(withDefaults());
+//        http
+//                .csrf().disable().cors().and()
+//                .authorizeHttpRequests()
+//                .requestMatchers("/authenticate/**").permitAll()
+//                .requestMatchers("/admin").hasAuthority("ADMIN")
+//                .anyRequest().hasAnyAuthority(roles)
+//                .and()
+//                .sessionManagement()
+//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http
                 .csrf().disable().cors().and()
                 .authorizeHttpRequests()
-                .requestMatchers("/authenticate/**").permitAll()
-                .requestMatchers("/admin").hasAuthority("ADMIN")
-                .anyRequest().hasAnyAuthority(roles)
+                .anyRequest().permitAll()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+        //http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDto getById(int id) {
-		return modelMapper.map(userRepo.findById(id), UserDto.class);
+		return modelMapper.map(userRepo.findById(id).get(), UserDto.class);
 
 	}
 

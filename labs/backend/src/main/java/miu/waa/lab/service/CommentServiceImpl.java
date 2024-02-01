@@ -32,7 +32,7 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public CommentDto getById(int id) {
-		return modelMapper.map(commentRepo.findById(id), CommentDto.class);
+		return modelMapper.map(commentRepo.findById(id).get(), CommentDto.class);
 	}
 
 	@Override
