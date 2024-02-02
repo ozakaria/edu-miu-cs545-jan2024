@@ -1,15 +1,14 @@
-import axios from 'axios';
+import React from 'react';
+import { Switch, Route, Link } from 'react-router-dom';
 import Posts from '../Posts/Posts';
-import NewPost from '../../components/NewPost/NewPost'
-// import PostsContext from '../../context/PostsContext'
+import NewPost from '../../components/NewPost/NewPost';
 import PostDetails from '../../components/PostDetails/PostDetails';
-import { useEffect, useState } from "react";
 import { usePostsContext } from '../../context/PostsContext';
 
-export default function Dashboard() {
+const Dashboard = () => {
     const { flag, flagHandler, selectedPostId, setSelectedPostId, addPostFlag, setAddPostFlag } = usePostsContext();
-    const [postDetailsFlag, setPostDetailsFlag] = useState(false);
-    const [postState, setPostState] = useState([
+    const [postDetailsFlag, setPostDetailsFlag] = React.useState(false);
+    const [postState, setPostState] = React.useState([
         {
             id: 0,
             title: "",
@@ -49,30 +48,34 @@ export default function Dashboard() {
             });
     };
 
-    useEffect(() => {
+    React.useEffect(() => {
         fetchPosts();
     }, [flag]);
 
     return (
-        <PostsProvider>
-            <div>
-                <div>
-                    <h1>Dashboard</h1>
+        <div>
+            <h1>Dashboard</h1>
+            <nav>
+                <Link to="/">Posts</Link>
+                <Link to="/newpost">Add New Post</Link>
+            </nav>
+            <Switch>
+                <Route exact path="/">
                     <Posts
                         posts={postState}
                         deletePost={deleteButtonClicked}
-                        setSelected={setSelected} />
-                </div>
-                <div>
-                    <PostDetails id={selectedState} showFlag={postDetailsFlag} />
-                </div>
-                <div>
-                    <button onClick={addPostBtnHandler}>
-                        Add Post
-                    </button>
+                        setSelected={setSelected}
+                    />
+                </Route>
+                <Route path="/newpost">
                     <NewPost />
-                </div>
-            </div>
-        </PostsProvider>
+                </Route>
+                <Route path="/post/:id">
+                    <PostDetails id={selectedPostId} showFlag={postDetailsFlag} />
+                </Route>
+            </Switch>
+        </div>
     );
-}
+};
+
+export default Dashboard;
