@@ -1,36 +1,31 @@
 import axios from 'axios';
 import Posts from '../Posts/Posts';
 import NewPost from '../../components/NewPost/NewPost'
-import PostsContext from '../../context/PostsContext'
+// import PostsContext from '../../context/PostsContext'
 import PostDetails from '../../components/PostDetails/PostDetails';
 import { useEffect, useState } from "react";
+import { usePostsContext } from '../../context/PostsContext';
 
 export default function Dashboard() {
-
-
-    const [flag, setFlag] = useState(true);
-    const [selectedState, setSelectedState] = useState(0);
-    const [addPostFlag, setAddPostFlag] = useState(false);
-    const [postDetailsFlag, setpostDetailsFlag] = useState(false);
-    const [postState, setPostState] = useState(
-        [{
+    const { flag, flagHandler, selectedPostId, setSelectedPostId, addPostFlag, setAddPostFlag } = usePostsContext();
+    const [postDetailsFlag, setPostDetailsFlag] = useState(false);
+    const [postState, setPostState] = useState([
+        {
             id: 0,
             title: "",
             content: "",
             author: ""
-        }]
-    );
+        }
+    ]);
 
     const setSelected = (id) => {
-        setSelectedState(id);
-        setpostDetailsFlag(true);
-    }
+        setSelectedPostId(id);
+        setPostDetailsFlag(true);
+    };
 
     const addPostBtnHandler = () => {
         setAddPostFlag(!addPostFlag);
-    }
-
-    
+    };
 
     const fetchPosts = () => {
         axios.get('http://localhost:8080/posts')
@@ -39,33 +34,27 @@ export default function Dashboard() {
                 setPostState(response.data);
             })
             .catch(error => {
-                console.log(error.message)
-            })
+                console.log(error.message);
+            });
     };
 
     const deleteButtonClicked = (id) => {
-        axios.delete('http://localhost:8080/posts/' + id, postState)
+        axios.delete(`http://localhost:8080/posts/${id}`, postState)
             .then(response => {
-                setFlag(!flag);
-                setpostDetailsFlag(false);
+                flagHandler();
+                setPostDetailsFlag(false);
             })
             .catch(err => {
                 console.error(err);
-            })
-    }
+            });
+    };
 
     useEffect(() => {
-        fetchPosts()
+        fetchPosts();
     }, [flag]);
 
-    const flagHandler = () => {
-        setFlag(!flag);
-    }
-
-
-
     return (
-        <PostsContext.Provider value={{ flagHandler, addPostFlag, setAddPostFlag }} >
+        <PostsProvider>
             <div>
                 <div>
                     <h1>Dashboard</h1>
@@ -84,6 +73,6 @@ export default function Dashboard() {
                     <NewPost />
                 </div>
             </div>
-        </PostsContext.Provider>
+        </PostsProvider>
     );
 }
