@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: realestate-backend
+  datasource:
+    password: postgres
+    url: jdbc:postgresql://localhost:5432/realstate
+    username: postgres
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: false
+    defer-datasource-initialization: true
+    generate-ddl: true
+  sql:
+    init:
+      mode: always
+server:
+  port: 8080
